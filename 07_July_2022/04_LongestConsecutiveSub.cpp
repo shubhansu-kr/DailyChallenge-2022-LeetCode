@@ -7,6 +7,32 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+class Solution {
+    // Brute Force: Sort  
+public:
+    int longestConsecutive(vector<int>& nums) {
+        if (nums.size() == 0) return 0 ;
+        sort(nums.begin(), nums.end());
+        int count = 0, maxLen = INT_MIN;
+        for(int i = 1; i<nums.size(); ++i){
+            if (nums[i] - nums[i-1] == 1) {
+                count++;
+            }
+            else if (nums[i] == nums[i-1]){
+                continue;
+            }
+            else {
+                if (count) {
+                    maxLen = max(maxLen, count);
+                    count = 0;
+                }
+            }
+        }
+        maxLen = max(count, maxLen);
+        return maxLen+1;
+    }
+};
+
 class Solution
 {
     // brute Force: Memory Limit Excedded.  
