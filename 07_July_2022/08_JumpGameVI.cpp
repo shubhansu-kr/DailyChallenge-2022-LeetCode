@@ -12,6 +12,32 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+class Solution3
+{
+    // Tabulation
+public:
+    int maxResult(vector<int> &nums, int k)
+    {
+        int n = nums.size();
+        vector<int> dp(n);
+        dp[0] = nums[0];
+
+        for (int j = 1; j < n; ++j)
+        {
+            int subMax = INT_MIN;
+            for (int i = 1; i <= k; ++i)
+            {
+                if (j - i < 0) break;
+                    
+                int sum = nums[j] + dp[j - i];
+                subMax = max(sum, subMax);
+            }
+            dp[j] = subMax;
+        }
+        return dp[n-1];
+    }
+};
+
 class Solution2
 {
     // Recursion: Memoization
@@ -26,14 +52,17 @@ public:
     int solve(vector<int> &nums, vector<int> &dp, int &k, int n)
     {
         // base condition
-        if (n <= 0) return 0;
+        if (n <= 0)
+            return 0;
 
-        if (dp[n] != -1) return dp[n];
+        if (dp[n] != -1)
+            return dp[n];
 
         int subMax = INT_MIN;
         for (int i = 1; i <= k; ++i)
         {
-            if (n - i < 0) break;
+            if (n - i < 0)
+                break;
             int sum = nums[n - i] + solve(nums, dp, k, n - i);
             subMax = max(sum, subMax);
         }
@@ -111,7 +140,7 @@ int main()
     vector<int> nums = {1, -1, -2, 4, -7, 3};
     int k = 2;
 
-    Solution2 obj1;
+    Solution3 obj1;
     cout << obj1.maxResult(nums, k);
 
     ios_base::sync_with_stdio(false);
