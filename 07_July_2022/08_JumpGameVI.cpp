@@ -12,14 +12,44 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Solution1
+class Solution2
 {
-    // Recursion: Optimised 
+    // Recursion: Memoization
 public:
     int maxResult(vector<int> &nums, int k)
     {
         int n = nums.size();
-        return solve(nums, k, n - 1) + nums[n-1];
+        vector<int> dp(n, -1);
+        return solve(nums, dp, k, n - 1) + nums[n - 1];
+    }
+
+    int solve(vector<int> &nums, vector<int> &dp, int &k, int n)
+    {
+        // base condition
+        if (n <= 0) return 0;
+
+        if (dp[n] != -1) return dp[n];
+
+        int subMax = INT_MIN;
+        for (int i = 1; i <= k; ++i)
+        {
+            if (n - i < 0) break;
+            int sum = nums[n - i] + solve(nums, dp, k, n - i);
+            subMax = max(sum, subMax);
+        }
+
+        return subMax;
+    }
+};
+
+class Solution1
+{
+    // Recursion: Optimised
+public:
+    int maxResult(vector<int> &nums, int k)
+    {
+        int n = nums.size();
+        return solve(nums, k, n - 1) + nums[n - 1];
     }
 
     int solve(vector<int> &nums, int &k, int n)
@@ -81,7 +111,7 @@ int main()
     vector<int> nums = {1, -1, -2, 4, -7, 3};
     int k = 2;
 
-    Solution1 obj1;
+    Solution2 obj1;
     cout << obj1.maxResult(nums, k);
 
     ios_base::sync_with_stdio(false);
