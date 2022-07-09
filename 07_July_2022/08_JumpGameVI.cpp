@@ -12,13 +12,42 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-class Solution
+class Solution1
 {
-    // BruteForce: Recursion  
+    // Recursion: Optimised 
 public:
     int maxResult(vector<int> &nums, int k)
     {
-        int n = nums.size(), sum = nums[n-1], ans = INT_MIN;
+        int n = nums.size();
+        return solve(nums, k, n - 1) + nums[n-1];
+    }
+
+    int solve(vector<int> &nums, int &k, int n)
+    {
+        // base condition
+        if (n <= 0)
+            return 0;
+
+        int subMax = INT_MIN;
+        for (int i = 1; i <= k; ++i)
+        {
+            if (n - i < 0)
+                break;
+            int sum = nums[n - i] + solve(nums, k, n - i);
+            subMax = max(sum, subMax);
+        }
+
+        return subMax;
+    }
+};
+
+class Solution
+{
+    // BruteForce: Recursion
+public:
+    int maxResult(vector<int> &nums, int k)
+    {
+        int n = nums.size(), sum = nums[n - 1], ans = INT_MIN;
         solve(nums, ans, sum, k, n - 1);
         return ans;
     }
@@ -29,7 +58,7 @@ public:
         if (n <= 0)
         {
             if (n == 0)
-            { 
+            {
                 ans = max(ans, sum);
             }
             return;
@@ -37,7 +66,8 @@ public:
 
         for (int i = 1; i <= k; ++i)
         {
-            if (n - i < 0) break;
+            if (n - i < 0)
+                break;
 
             sum += nums[n - i];
             solve(nums, ans, sum, k, n - i);
@@ -48,10 +78,10 @@ public:
 
 int main()
 {
-    vector<int> nums = {1,-1,-2,4,-7,3};
+    vector<int> nums = {1, -1, -2, 4, -7, 3};
     int k = 2;
 
-    Solution obj1;
+    Solution1 obj1;
     cout << obj1.maxResult(nums, k);
 
     ios_base::sync_with_stdio(false);
