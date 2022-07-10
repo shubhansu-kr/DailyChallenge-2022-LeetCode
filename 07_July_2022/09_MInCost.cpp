@@ -9,17 +9,35 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+class Solution3
+{
+    // Tabulation: Space Optimised
+public:
+    int minCostClimbingStairs(vector<int> &cost)
+    {
+        int prev = cost[0], prev1 = cost[1];
+        for (int i = 2; i < cost.size(); ++i)
+        {
+            int temp = prev1;
+            prev1 = cost[i] + min(prev, prev1);
+            prev = temp;
+        }
+        return min(prev, prev1);
+    }
+};
+
 class Solution2
 {
-    // Recursion: Memoization
+    // Tabulation
 public:
     int minCostClimbingStairs(vector<int> &cost)
     {
         int n = cost.size();
         vector<int> dp(n);
-        dp[0] = cost[0], dp[1] = min(cost[0], cost[1]);
-        for (int i = 2; i < n; ++i) dp[i] = cost[i] + min(dp[i-1], dp[i-2]); 
-        return min (dp[n-2], dp[n-1]);
+        dp[0] = cost[0], dp[1] = cost[1];
+        for (int i = 2; i < n; ++i)
+            dp[i] = cost[i] + min(dp[i - 1], dp[i - 2]);
+        return min(dp[n - 2], dp[n - 1]);
     }
 };
 
@@ -31,14 +49,16 @@ public:
     {
         int n = cost.size();
         vector<int> dp(n, -1);
-        solve(cost,dp, 0);
+        solve(cost, dp, 0);
         return min(dp[0], dp[1]);
     }
 
     int solve(vector<int> &cost, vector<int> &dp, int i)
     {
-        if (i >= cost.size()) return 0;
-        if (dp[i] != -1) return dp[i];
+        if (i >= cost.size())
+            return 0;
+        if (dp[i] != -1)
+            return dp[i];
         int one = cost[i] + solve(cost, dp, i + 1);
         int two = cost[i] + solve(cost, dp, i + 2);
         return dp[i] = min(one, two);
