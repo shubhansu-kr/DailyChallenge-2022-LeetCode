@@ -9,6 +9,28 @@
 #include <bits/stdc++.h>
 using namespace std;
 
+class Solution1
+{
+    // Recursion: Memoization
+public:
+    int minCostClimbingStairs(vector<int> &cost)
+    {
+        int n = cost.size();
+        vector<int> dp(n, -1);
+        solve(cost,dp, 0);
+        return min(dp[0], dp[1]);
+    }
+
+    int solve(vector<int> &cost, vector<int> &dp, int i)
+    {
+        if (i >= cost.size()) return 0;
+        if (dp[i] != -1) return dp[i];
+        int one = cost[i] + solve(cost, dp, i + 1);
+        int two = cost[i] + solve(cost, dp, i + 2);
+        return dp[i] = min(one, two);
+    }
+};
+
 class Solution
 {
     // BruteForce: Recursion
@@ -20,7 +42,8 @@ public:
 
     int solve(vector<int> &cost, int i)
     {
-        if (i >= cost.size()) return 0;
+        if (i >= cost.size())
+            return 0;
 
         int one = cost[i] + solve(cost, i + 1);
         int two = cost[i] + solve(cost, i + 2);
