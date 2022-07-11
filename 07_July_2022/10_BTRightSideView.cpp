@@ -17,9 +17,28 @@ struct TreeNode
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+class Solution1
+{
+    // Recursion: Space Optmised
+public:
+    vector<int> rightSideView(TreeNode *root)
+    {
+        vector<int> ans;
+        solve(ans, root);
+        return ans;
+    }
+    void solve(vector<int> &ans, TreeNode *root, int depth = 0)
+    {
+        if (!root) return;
+        if (ans.size() <= depth) ans.push_back(root->val);
+        solve(ans, root->right, depth + 1);
+        solve(ans, root->left, depth + 1);
+    }
+};
+
 class Solution
 {
-    // BruteForce: Recursion 
+    // BruteForce: Recursion
 public:
     vector<int> rightSideView(TreeNode *root)
     {
@@ -31,16 +50,10 @@ public:
     void solve(vector<int> &ans, unordered_set<int> &track, TreeNode *root, int depth = 0)
     {
         if (!root) return;
+        if (!track.count(depth)){ans.push_back(root->val);track.insert(depth);}
 
-        if (!track.count(depth))
-        {
-            ans.push_back(root->val);
-            track.insert(depth);
-        }
-
-        solve(ans, track, root->right, depth+1);
-        solve(ans, track, root->left, depth+1);
-
+        solve(ans, track, root->right, depth + 1);
+        solve(ans, track, root->left, depth + 1);
     }
 };
 
