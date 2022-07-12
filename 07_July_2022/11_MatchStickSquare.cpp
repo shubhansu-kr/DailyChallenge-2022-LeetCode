@@ -10,6 +10,40 @@
 using namespace std ;
 
 class Solution {
+    // Depth first search: Discussion solution 
+public:
+    
+    bool dfs(vector<int> &sidesLength,const vector<int> &matches, int index, const int target) {
+        if (index == matches.size()) return sidesLength[0] == sidesLength[1] && sidesLength[1] == sidesLength[2] && sidesLength[2] == sidesLength[3];
+        for (int i = 0; i < 4; ++i) {
+            if (sidesLength[i] + matches[index] > target) continue;
+            int j = i;
+            while (--j >= 0) // third
+                if (sidesLength[i] == sidesLength[j]) break;
+            if (j != -1) continue;
+            sidesLength[i] += matches[index];
+            if (dfs(sidesLength, matches, index + 1, target)) return true;
+            sidesLength[i] -= matches[index];
+        }
+        return false;
+    }
+
+    bool makesquare(vector<int>& matchsticks) {
+        if (matchsticks.size() < 4) return false;
+        int sum = 0;
+        for (const int val: matchsticks) {
+            sum += val;
+        }
+        if (sum % 4 != 0) return false;
+        sort(matchsticks.begin(), matchsticks.end(), [](const int &l, const int &r){return l > r;}); // second
+        for(auto &it: matchsticks) if(it > sum/4) return false; 
+        vector<int> sidesLength(4, 0);
+        return dfs(sidesLength, matchsticks, 0, sum / 4);
+    }
+};
+
+class Solution {
+    // Wrong Solution
 public:
     bool makesquare(vector<int>& matchsticks) {
         long long len = accumulate(matchsticks.begin(), matchsticks.end(), 0);
@@ -24,7 +58,7 @@ public:
         return solve(matchsticks, v1, len, 2*len, matchsticks.size()-1);
     }
 
-    bool solve (vector<int> &nums, vector<int> &v1,  int t, int k, int n) {
+    bool solve (vector<int> &matchsticks, vector<int> &v1,  int t, int k, int n) {
         if (n == -1 || k == 0) {
             if (k == 0) {
                 vector<int> v2;
@@ -34,25 +68,25 @@ public:
         }
 
         bool pick = false ;
-        if (k >= nums[0]) {
-            v1.emplace_back(nums[n]);
-            pick = solve(nums, v1, t, k-nums[n], n-1);
+        if (k >= matchsticks[0]) {
+            v1.emplace_back(matchsticks[n]);
+            pick = solve(matchsticks, v1, t, k-matchsticks[n], n-1);
             v1.pop_back();
             if (pick) return true;
         }   
-        bool noPick = solve(nums, v1, t, k, n-1);  
+        bool noPick = solve(matchsticks, v1, t, k, n-1);  
         return pick || noPick;
     }
 
     // Check if subset with sum k exists 
-    bool divide(vector<int> &nums, int k, int n) {
+    bool divide(vector<int> &matchsticks, int k, int n) {
         // Base condition 
-        if (n == 0) return k == nums[0];
+        if (n == 0) return k == matchsticks[0];
         if (k == 0) return true;
 
         bool pick = false; 
-        if (nums[n] <= k) pick = divide(nums, k-nums[n], n-1);
-        bool noPick = divide(nums, k, n-1);
+        if (matchsticks[n] <= k) pick = divide(matchsticks, k-matchsticks[n], n-1);
+        bool noPick = divide(matchsticks, k, n-1);
 
         return pick || noPick;
     }
