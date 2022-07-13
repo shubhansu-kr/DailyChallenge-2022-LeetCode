@@ -16,6 +16,26 @@ struct TreeNode
     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
 };
 
+class Solution1
+{
+    // Space Optimised 
+public:
+    vector<vector<int>> levelOrder(TreeNode *root)
+    {
+        vector<vector<int>> ans;
+        solve(ans, root);
+        return ans;
+    }
+
+    void solve(vector<vector<int>> &ans, TreeNode *root, int depth = 0) {
+        if (!root) return;
+        if (ans.size() > depth){ans[depth].emplace_back(root->val);}
+        else {ans.emplace_back(vector<int>(1, root->val));}
+        solve(ans, root->left, depth+1);
+        solve(ans, root->right, depth+1);
+    }
+};
+
 class Solution
 {
     // Using Map 
