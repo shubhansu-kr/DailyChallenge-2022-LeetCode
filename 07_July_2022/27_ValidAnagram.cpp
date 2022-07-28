@@ -3,6 +3,20 @@
 #include <bits/stdc++.h>
 using namespace std ;
 
+class Solution1 
+{
+    // Using unordered_map
+public:
+    bool isAnagram(string s, string t) {
+        if (s.length() != t.length()) return false;
+
+        unordered_map<char, int> ana;
+        for(auto &a: s) ++ana[a];
+        for(auto &a: t) if(ana[a])--ana[a];else return false;
+        return true;      
+    }
+};
+
 class Solution 
 {
     // BruteForce: Using vector
