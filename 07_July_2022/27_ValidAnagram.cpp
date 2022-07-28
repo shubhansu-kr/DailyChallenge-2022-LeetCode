@@ -3,6 +3,19 @@
 #include <bits/stdc++.h>
 using namespace std ;
 
+class Solution2 
+{
+    // Sorting
+public:
+    bool isAnagram(string s, string t) {
+        if (s.length() != t.length()) return false;
+
+        sort(s.begin(), s.end());
+        sort(t.begin(), t.end());
+
+        return s == t; 
+    }
+};
 class Solution1 
 {
     // Using unordered_map
