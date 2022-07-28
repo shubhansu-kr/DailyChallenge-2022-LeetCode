@@ -3,6 +3,23 @@
 #include <bits/stdc++.h>
 using namespace std ;
 
+class Solution3
+{
+    // Using Maths
+public:
+    bool isAnagram(string s, string t) {
+        if (s.length() != t.length()) return false;
+
+        unsigned int sum_s = 1, sum_t = 1;
+        for (int i = 0; i < s.length(); ++i)
+        {
+            sum_s += s[i] * ((s[i] + 1) / 2);
+            sum_t += t[i] * ((t[i] + 1) / 2);
+        }
+        return sum_s == sum_t;
+    }
+};
+
 class Solution2 
 {
     // Sorting
