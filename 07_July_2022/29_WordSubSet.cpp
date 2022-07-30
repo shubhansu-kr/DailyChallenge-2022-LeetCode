@@ -15,6 +15,46 @@ using namespace std;
 
 class Solution
 {
+    // BruteForce : Iterative: Wrong Answer
+public:
+    vector<string> wordSubsets(vector<string> &words1, vector<string> &words2)
+    {
+        vector<string> ans;
+        for (int i = 0; i < words1.size(); ++i)
+        {
+            int flag = 1;
+            for (int j = 0; j < words2.size(); ++j)
+            {
+                if (!checkSubset(words1[i], words2[j]))
+                {
+                    flag = 0;
+                    break;
+                }
+            }
+            if (flag){ans.emplace_back(words1[i]);}
+        }
+        return ans;
+    }
+
+    // Check if t is a subset of s
+    bool checkSubset(string &s, string &t)
+    {
+        if (s.size() < t.size()) return false;
+        int i = s.size()-1, j = t.size()-1;
+
+        while (true){
+            if (j == -1) return true;
+            if (i == -1) return false;
+            if (s[i] == t[j]) --i, --j;
+            else --i;
+        }
+        return false;
+    }
+
+};
+
+class Solution
+{
     // BruteForce :Recursion
 public:
     vector<string> wordSubsets(vector<string> &words1, vector<string> &words2)
