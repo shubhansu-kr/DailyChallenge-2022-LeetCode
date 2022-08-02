@@ -11,26 +11,23 @@
 using namespace std ;
 
 class Solution1 {
-    // BruteForce: Using sets 
+    // Using queue: Wrong solution 
 public:
     int kthSmallest(vector<vector<int>>& matrix, int k) {
-        set<int> track; 
+        stack<int> num, temp; 
         for(auto &a: matrix)
-            for(auto &b: a) {
-                if (track.count(b)) {
-                    --k;
+            for(auto &b: a){
+                while(num.size() && num.top() > k) {
+                    temp.push(num.top());
+                    num.pop();
                 }
-                else {
-                    track.insert(b);
+                num.push(k);
+                while (temp.size() && num.size() < k) {
+                    num.push(temp.top());
+                    temp.pop();
                 }
             }
-        for (auto a: track) {
-            if (k == 0) {
-                return a;
-            }
-            --k;
-        }
-        return -1;
+        return num.top();        
     }
 };
 
