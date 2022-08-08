@@ -11,6 +11,28 @@
 #include <bits/stdc++.h>
 using namespace std ;
 
+class Solution1 {
+    // Recursion: Memoization  
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n = nums.size(); 
+        vector<vector<int>> dp(n, vector<int> (10e4+2, -1));
+        return solve (nums, dp, (10e4+1), n-1) ;
+    }
+
+    int solve (vector<int> &nums, vector<vector<int>> &dp, int prev, int i) {
+        // base condition 
+        if (i == -1) return 0 ;
+        if (dp[i][prev] != -1) return dp[i][prev] ;
+
+        int pick = 0 ;
+        if (nums[i] < prev) pick = 1 + solve (nums, dp, nums[i], i-1);
+        int noPick = solve (nums, dp, prev, i-1);
+
+        return dp[i][prev] = max(pick, noPick);
+    }
+};
+
 class Solution {
     // BruteForce: Recursion 
 public:
