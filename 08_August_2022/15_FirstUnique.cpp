@@ -5,6 +5,25 @@
 #include <bits/stdc++.h>
 using namespace std ;
 
+class Solution1 {
+public:
+    int firstUniqChar(string s) {
+        unordered_map<char, pair<int, int>> p;
+        for (int i = 0; i < s.length(); ++i)
+        {
+            p[s[i]].first++;
+            p[s[i]].second = i ;
+        }
+        int ans = INT_MAX;
+        for(auto &a: p)
+        {
+            if (a.second.first == 1) ans = min (ans, a.second.second);
+        }
+        return ans == INT_MAX?-1: ans;
+    }
+};
+
+
 class Solution {
 public:
     int firstUniqChar(string s) {
