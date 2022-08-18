@@ -8,6 +8,41 @@
 #include <bits/stdc++.h>
 using namespace std ;
 
+class Solution2 {
+    // Using Maps: Tabulation : TLE 
+public:
+    int minSetSize(vector<int>& arr) {
+        unordered_map<int, int> m;
+        for(auto &it: arr) {m[it]++;}
+        vector<int> nums;
+        for(auto &it: m) nums.emplace_back(it.second);
+        // Now we just have to find the min. number of elements from 
+        // nums which add upto half of the size of arr.
+        int n = arr.size(); 
+        vector<vector<int>> dp(nums.size(), vector<int> (n/2+1, 0));
+
+        for (int i = 0; i < nums.size(); ++i)
+        {
+            for (int k = 1; k <= n/2; ++k)
+            {
+                int pick = 1e9, noPick = 1e9;
+                if (i > 0) {
+                    if (k - nums[i] > 0) {
+                        pick = 1 + dp[i-1][k-nums[i]]; 
+                    } 
+                    else {
+                        pick = 1 ;
+                    }
+                    noPick = dp[i-1][k];
+                }
+                dp[i][k] = min(pick, noPick);
+            }
+        }
+        
+        return dp[nums.size()-1][n/2];
+    }
+};
+
 class Solution1 {
     // Using Maps: Recursion Memoization
 public:
@@ -19,7 +54,7 @@ public:
         // Now we just have to find the min. number of elements from 
         // nums which add upto half of the size of arr.
         int n = arr.size(); 
-        vector<vector<int>> dp(nums.size(), vector<int> (n+1, -1));
+        vector<vector<int>> dp(nums.size(), vector<int> (n/2+1, -1));
         return solve(nums, dp, n/2, nums.size()-1);
     }
     int solve(vector<int> &nums, vector<vector<int>> &dp, int k, int i) {
