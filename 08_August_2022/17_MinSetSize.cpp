@@ -8,6 +8,32 @@
 #include <bits/stdc++.h>
 using namespace std ;
 
+class Solution1 {
+    // Using Maps: Recursion Memoization
+public:
+    int minSetSize(vector<int>& arr) {
+        unordered_map<int, int> m;
+        for(auto &it: arr) {m[it]++;}
+        vector<int> nums;
+        for(auto &it: m) nums.emplace_back(it.second);
+        // Now we just have to find the min. number of elements from 
+        // nums which add upto half of the size of arr.
+        int n = arr.size(); 
+        vector<vector<int>> dp(nums.size(), vector<int> (n+1, -1));
+        return solve(nums, dp, n/2, nums.size()-1);
+    }
+    int solve(vector<int> &nums, vector<vector<int>> &dp, int k, int i) {
+        if (k <= 0) return 0;
+        if (i == -1) return 1e9;
+        if (dp[i][k] != -1) return dp[i][k]; 
+        // Pick 
+        int pick = 1 + solve(nums, dp, k-nums[i], i-1);
+        int noPick = solve(nums, dp, k, i-1);
+
+        return dp[i][k] = min(pick, noPick);
+    }
+};
+
 class Solution {
     // Using Maps: Recursion BruteForce 
 public:
@@ -22,7 +48,8 @@ public:
         return solve(nums, n/2, nums.size()-1);
     }
     int solve(vector<int> &nums, int k, int i) {
-        if (i == -1 || k <= 0) return 0;
+        if (k <= 0) return 0;
+        if (i == -1) return 1e9;
         
         // Pick 
         int pick = 1 + solve(nums, k-nums[i], i-1);
