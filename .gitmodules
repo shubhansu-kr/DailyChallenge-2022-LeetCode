@@ -1,0 +1,9 @@
+[submodule "DailyChallenge-April2022-Leetcode"]
+	path = DailyChallenge-April2022-Leetcode
+	url = https://github.com/shubhansu-kr/DailyChallenge-April2022-Leetcode
+[submodule "DailyChallenge-May2022-Leetcode"]
+	path = DailyChallenge-May2022-Leetcode
+	url = https://github.com/shubhansu-kr/DailyChallenge-May2022-Leetcode
+[submodule "DailyChallenge-June2022-LeetCode"]
+	path = DailyChallenge-June2022-LeetCode
+	url = https://github.com/shubhansu-kr/DailyChallenge-June2022-LeetCode
