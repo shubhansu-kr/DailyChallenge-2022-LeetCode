@@ -5,8 +5,6 @@ using namespace std ;
 
 class Solution {
 public:
-    class Solution {
-public:
     int getRotationAngle(vector<int> A, vector<int> B, vector<int> C) {
         // (x2-x1)(y3-y1) - (y2-y1)(x3-x1) -> 3D Cross-product of AB and AC vectors
         return ((B[0] - A[0]) * (C[1] - A[1])) - ((B[1] - A[1]) * (C[0] - A[0]));
@@ -56,7 +54,6 @@ public:
         
         return lTrees;
     }
-};
 };
 
 int main () {
