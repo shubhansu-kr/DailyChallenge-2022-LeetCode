@@ -3,6 +3,37 @@
 #include <bits/stdc++.h>
 using namespace std ;
 
+class Solution3 {
+    // Tabulation: Space optimisation
+public:
+    int climbStairs(int n) {
+        // vector<int> dp(n+1, -1);
+        // dp[0] = 1, dp[1] = 1;
+        int prev = 1, prev1 = 1, temp;
+        for (int i = 2; i <= n; ++i)
+        {
+            temp = prev + prev1;
+            prev1 = prev;
+            prev = temp;
+        }
+        return prev;
+    }
+};
+
+class Solution2 {
+    // Tabulation
+public:
+    int climbStairs(int n) {
+        vector<int> dp(n+1, -1);
+        dp[0] = 1, dp[1] = 1;
+        for (int i = 2; i <= n; ++i)
+        {
+            dp[i] = dp[i-1] + dp[i-2];
+        }
+        return dp[n];
+    }
+};
+
 class Solution1 {
     // Memoization
 public:
